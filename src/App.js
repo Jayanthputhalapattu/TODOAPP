@@ -1,4 +1,4 @@
-import React, { useReducer} from "react";
+import React, { useEffect, useReducer, useState} from "react";
 import {Container} from "reactstrap";
 
 
@@ -11,13 +11,31 @@ import Todos from "./components/todos";
 
 
 const App = () =>{
-  const [todos,dispatch] = useReducer(todoReducer,[])
-  return(
-     <TodoContext.Provider value = {{todos,dispatch}}>
-       <Todos />
-              <TodoForm />
-     </TodoContext.Provider>
-  )
+  
+  const [todos,setTodos ] = useState([])
+  useEffect(()=>{
+    const localtodos = localStorage.getItem("todos")
+    if (localtodos)
+    {
+      setTodos(JSON.parse(localtodos))
+    }
+  },[]);
+  const addTodos = async todo =>{
+    setTodos([...todos,todo])
+  }
+  useEffect(()=>{
+     localStorage.setItem("todos",JSON.stringify(todos))
+  },[todos])
+  const markComplete = id =>{
+    setTodos(todos.filter(todo =>todo.id!== id))
+  }
+   return(
+<Container fluid>
+  <h1>Todos</h1>
+  <Todos todos={todos} markComplete = {markComplete}/>
+  <TodoForm addTodos={addTodos}/>
+</Container>
+   )
 }
 
 export default App
