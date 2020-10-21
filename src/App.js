@@ -1,11 +1,10 @@
-import React, { useEffect, useReducer, useState} from "react";
+import React, { useEffect, useState} from "react";
 import {Container} from "reactstrap";
 
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import  {TodoContext} from "./context/TodoContext";
-import todoReducer from "./context/reducer";
+
 import TodoForm  from "./components/todoForm";
 import Todos from "./components/todos";
 
